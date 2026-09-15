@@ -1,0 +1,51 @@
+# ---- OS generated ----
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ---- Editors ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ---- Secrets / environment ----
+.env
+.env.*
+!.env.example
+
+# ---- Logs / temp ----
+*.log
+*.tmp
+.cache/
+
+# ---- Dependencies / build output (frontend, backend) ----
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- Django ----
+db.sqlite3
+*.sqlite3
+
+# ---- Claude Code (personal config, not shared) ----
+CLAUDE.md
+.claude/
