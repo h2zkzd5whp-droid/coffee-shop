@@ -28,6 +28,8 @@ cd coffee-shop
 cp .env.example .env
 ```
 
+On macOS, use `python3` instead of `python` until the virtual environment is activated.
+
 Fill in `SECRET_KEY` in `.env` with any long random string. This one-liner generates one:
 
 ```

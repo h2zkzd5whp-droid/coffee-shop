@@ -42,6 +42,12 @@ __pycache__/
 .venv/
 venv/
 
+# ---- Office documents (docs are Markdown only, see CONTRIBUTING.md) ----
+*.doc
+*.docx
+*.hwp
+*.hwpx
+
 # ---- Django ----
 db.sqlite3
 *.sqlite3
