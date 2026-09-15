@@ -19,6 +19,9 @@
 
 ## Commit messages
 
+Commits inside a branch are squashed on merge, so their messages are free-form.
+The rules below apply to the PR title, which becomes the commit message on `main`.
+
 Conventional Commits format:
 
 ```
