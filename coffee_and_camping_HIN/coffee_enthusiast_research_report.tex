@@ -1,0 +1,394 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{kotex}
+\usepackage[a4paper,top=25mm,bottom=25mm,left=22mm,right=22mm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+% Color Definitions (Sophisticated Editorial Palette)
+\definecolor{EspressoDark}{RGB}{44, 30, 22}
+\definecolor{WarmSand}{RGB}{245, 242, 237}
+\definecolor{ForestGreen}{RGB}{46, 68, 54}
+\definecolor{AccentAmber}{RGB}{184, 115, 51}
+\definecolor{SlateGray}{RGB}{100, 110, 120}
+\definecolor{BorderGray}{RGB}{220, 215, 208}
+
+% Hyperref Setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=ForestGreen,
+    citecolor=AccentAmber,
+    urlcolor=AccentAmber,
+    pdfauthor={AURA ROASTERS × WILD VOYAGE UX Lab},
+    pdftitle={스페셜티 커피 애호가의 정보 요구 분석 및 아웃도어 브루잉 플랫폼을 위한 UX 전략 연구}
+}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\textcolor{SlateGray}{\textbf{AURA × WILD} | 커피 애호가 정보 요구 모델 및 필드 브루잉 리서치 보고서}}
+\fancyhead[R]{\footnotesize\textcolor{SlateGray}{2026 UX \& Coffee Science Research}}
+\fancyfoot[C]{\footnotesize\textcolor{SlateGray}{-- \thepage\ / \pageref{LastPage} --}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Section Titles Styling
+\titleformat{\section}
+  {\Large\bfseries\color{EspressoDark}}{\thesection.}{0.8em}{}[\titlerule]
+\titleformat{\subsection}
+  {\large\bfseries\color{ForestGreen}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{EspressoDark}}{\thesubsubsection}{0.5em}{}
+
+% Tcolorbox Setup
+\tcbset{
+  arc=3mm,
+  colback=WarmSand,
+  colframe=BorderGray,
+  boxrule=0.8pt,
+  fonttitle=\bfseries\color{EspressoDark},
+  left=8pt,right=8pt,top=7pt,bottom=7pt
+}
+
+\begin{document}
+
+% Title Block
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
+    
+    {\Large\scshape\textcolor{AccentAmber}{\textbf{FIELD COFFEE SCIENCE \& DIGITAL UX RESEARCH REPORT}}}\\[0.8cm]
+    
+    \rule{\textwidth}{1.5pt}\\[0.5cm]
+    {\LARGE\bfseries\color{EspressoDark} 스페셜티 커피 애호가의 정보 요구 모델 및\\아웃도어·캠핑 융합 브루잉 서비스 UX 전략 연구}\\[0.3cm]
+    {\large\color{ForestGreen} An Empirical Study on Information-Seeking Behavior of Specialty Coffee Enthusiasts\\and UX Strategy for Outdoor Brewing Platforms}\\[0.4cm]
+    \rule{\textwidth}{0.8pt}\\[1.5cm]
+    
+    \begin{tcolorbox}[colback=white,colframe=EspressoDark,width=0.92\textwidth]
+    \textbf{\large 요 약 (Executive Summary)}\\[0.3cm]
+    \small
+    본 연구는 제3의 물결(Third Wave) 이후 스페셜티 커피 문화가 대중화됨에 따라 고도화된 '커피 애호가(Specialty Coffee Enthusiasts)'의 정보 탐색 행태를 규명하고, 최근 급성장하고 있는 아웃도어·캠핑 라이프스타일과 융합된 모바일 커머스 및 미디어 플랫폼의 정보 아키텍처(Information Architecture)와 UX 전략을 도출하는 것을 목적으로 한다.
+    
+    온라인 커뮤니티 데이터 분석($N=12,400$건 텍스트 마이닝), 커피 애호가 420명 대상 설문조사, 18인의 전문 바리스타 및 헤비 유저 심층 인터뷰를 결합한 혼합 연구 방법론(Mixed-Methods)을 적용하였다. 연구 결과, 커피 애호가들은 단순한 미사여구 중심의 마케팅 문구보다 (1) 원산지 떼루아 및 가공 프로세싱 메타데이터, (2) Agtron 및 디개싱(숙성) 프로파일, (3) 마이크론/클릭 단위의 분쇄도 및 수온·TDS를 포함한 정량적 추출 가이드, (4) SCA 휠 기반의 다면적 센서리 데이터, (5) 야외 외기온도 및 기압 변화에 대응하는 물리적 보정 변수를 핵심 정보로 요구하는 것으로 규명되었다.
+    
+    이를 바탕으로 본고는 커피 애호가를 4대 세그먼트로 유형화하고, 감성적 비주얼 매거진(Editorial Visuals)과 고밀도 메타데이터 시트(Technical Data Sheet)가 결합된 융합 플랫폼의 모바일 UX 가이드라인 및 커머스 전환 프레임워크를 제안한다.
+    \end{tcolorbox}
+    
+    \vspace{1.5cm}
+    
+    \begin{minipage}{0.85\textwidth}
+    \begin{tabular}{ll}
+    \textbf{연구 발행:} & AURA ROASTERS × WILD VOYAGE Lab\\
+    \textbf{연구 책임:} & 수석 UX 전략 연구팀 \& 스페셜티 센서리 랩\\
+    \textbf{발행 일자:} & 2026년 9월\\
+    \textbf{문서 분류:} & 서비스 기획 \& 도메인 리서치 백서 (Tech Whitepaper)\\
+    \textbf{핵심 주제어:} & 스페셜티 커피, 아웃도어 브루잉, 정보 요구 모델, 사용자 경험(UX), 추출 파라미터
+    \end{tabular}
+    \end{minipage}
+    
+    \vfill
+    {\footnotesize\textcolor{SlateGray}{Copyright \copyright\ 2026 AURA × WILD Archive. All rights reserved.}}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% -------------------------------------------------------------
+\section{서론 (Introduction)}
+% -------------------------------------------------------------
+
+\subsection{연구 배경: 스페셜티 커피 패러다임과 홈바리스타의 진화}
+세계 스페셜티 커피 협회(Specialty Coffee Association, SCA)의 평가 기준(80점 이상)을 충족하는 스페셜티 커피의 확산은 소비자의 음용 행태를 단순 기호식품 소비에서 **‘탐색적 감각 경험(Exploratory Sensory Experience)’**이자 **‘정밀 추출 취미(Precision Brewing Hobby)’**의 영역으로 전환시켰다. 과거 제1의 물결(인스턴트 대량 소비), 제2의 물결(에스프레소 프랜차이즈 문화)을 지나 도래한 제3의 물결(The Third Wave of Coffee)은 커피의 원산지 추적 가능성(Traceability), 품종 고유의 개성(Terroir), 라이트 로스팅(Light Roasting)을 통한 섬세한 산미 표현을 핵심 가치로 정립하였다.
+
+이러한 시장 진화의 최전선에 서 있는 ‘커피 애호가(Coffee Enthusiasts/Aficionados)’ 집단은 단순 소비자를 넘어 추출 프로세스를 직접 통제하고 최적화하려는 홈바리스타(Home Barista)이자 센서리 감별사의 특성을 지닌다. 이들은 하이엔드 핸드밀 그라인더(코만단테 C40, 1Zpresso, 키누 등), 정밀 온도 조절 드립포트, 블루투스 연동 스마트 전자저울(Acaia Pearl 등)을 적극적으로 구비하며, 추출 수율(Extraction Yield, $EY$)과 총 용존 고형물(Total Dissolved Solids, $\text{TDS}$)을 수치적으로 관리하는 과학적 접근 방식을 선호한다.
+
+\subsection{공간적 경계의 확장: 인도어 홈카페에서 아웃도어 필드로}
+최근 수년간 두드러진 라이프스타일의 메가트렌드는 캠핑, 백패킹, 차박 등 아웃도어 활동의 급격한 팽창이다. 흥미롭게도 이러한 아웃도어 붐은 커피 문화와 강력한 시너지 효과를 형성하고 있다. 실내의 통제된 주방 환경에서 추출을 즐기던 커피 애호가들이 자연 환경(산 정상, 숲속, 계곡, 해변) 속에서 커피를 직접 브루잉하는 **‘필드 브루잉(Field Brewing)’**에 열광하기 시작한 것이다.
+
+그러나 실내 환경과 달리 아웃도어 필드는 극단적인 물리적 변수들이 지배하는 공간이다.
+\begin{enumerate}[itemsep=2pt,topsep=2pt]
+    \item **열역학적 불안정성**: 바람과 낮은 기온으로 인해 드립포트와 드리퍼 내부의 온도가 급격히 하강함.
+    \item **기압 및 비등점 변화**: 해발 1,000m 이상의 고지대에서는 대기압 저하로 인해 물이 $96^\circ\text{C}$가 아닌 $92^\circ\text{C}\sim 93^\circ\text{C}$에서 비등함.
+    \item **수질 및 미네랄 편차**: 야외 생수 및 정수 환경에 따른 경도(Hardness)와 알칼리도(Alkalinity)의 불균일성.
+    \item **기구 휴대성의 제약**: 파손 위험이 높은 유리/도자기 대신 티타늄, 스테인리스, 실리콘, PCTG(트라이탄) 등 소재의 물리적 특성 고려 필요.
+\end{enumerate}
+따라서 애호가들은 "야외에서도 카페 수준의 완벽한 컵 노트를 구현하기 위해 어떤 데이터와 기구가 필요한가?"라는 새로운 질문에 직면해 있다.
+
+\subsection{연구의 목적 및 연구 질문 (Research Questions)}
+본 연구의 목적은 스페셜티 커피 애호가들이 브루잉 전 과정에서 요구하는 핵심 정보의 구조를 체계화하고, 이를 바탕으로 감성적 아웃도어 매거진과 커머스가 결합된 차세대 모바일 웹 플랫폼의 정보 아키텍처(IA) 및 UX/UI 가이드라인을 수립하는 것이다. 본 연구가 규명하고자 하는 핵심 연구 질문은 다음과 같다:
+\begin{itemize}[itemsep=2pt,topsep=2pt]
+    \item \textbf{RQ 1}: 커피 애호가 집단은 어떠한 관여도와 추출 성향에 따라 세분화되는가?
+    \item \textbf{RQ 2}: 애호가들이 원두 구매 및 추출 단계에서 탐색하는 절대적 필수 정보 속성은 무엇인가?
+    \item \textbf{RQ 3}: 아웃도어 캠핑 환경이 야기하는 추출 변수를 극복하기 위해 디지털 서비스가 제공해야 할 물리적 보정 정보는 무엇인가?
+    \item \textbf{RQ 4}: 하이엔드 감성 비주얼(Magazine)과 전문적 스펙(Data Sheet)을 동시에 만족시키는 최적의 모바일 UX 플로우는 무엇인가?
+\end{itemize}
+
+% -------------------------------------------------------------
+\section{연구 방법론 (Research Methodology)}
+% -------------------------------------------------------------
+
+본 연구는 다각적이고 신뢰도 높은 인사이트를 확보하기 위해 질적 조사와 양적 조사를 병행하는 혼합 연구 방법론(Mixed-Methods Research)을 채택하였다.
+
+\begin{table}[h!]
+\centering
+\small
+\caption{연구 데이터 수집 및 분석 프레임워크}
+\vspace{4pt}
+\begin{tabularx}{\textwidth}{lcp{6.5cm}X}
+\toprule
+\textbf{구분} & \textbf{표본 크기} & \textbf{대상 및 출처} & \textbf{분석 기법} \\
+\midrule
+\textbf{Phase 1: 텍스트 마이닝} & 12,400건 & 디시인사이드 커피 갤러리, 클리앙 커피당, Reddit r/Coffee, Barista Hustle & LDA 토픽 모델링, 형태소 분석, 키워드 동시출현 네트워크 \\
+\textbf{Phase 2: 설문조사} & $N=420$명 & 스페셜티 원두 정기 구매자 및 홈바리스타 & 기술통계, 요인분석, IPA (중요도-만족도 분석) \\
+\textbf{Phase 3: 심층 인터뷰} & $N=18$명 & Q-Grader(4명), 로스터(4명), 캠핑 커피 헤비유저(10명) & 근거이론 기반 개방 코딩, 여정 맵 작성 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% -------------------------------------------------------------
+\section{커피 애호가 세분화 및 페르소나 모델 (User Segmentation)}
+% -------------------------------------------------------------
+
+\subsection{4대 세그먼트 매트릭스}
+조사 분석 결과, 커피 애호가는 \textbf{'기술적 정밀성 지향도(Technical Precision)'}와 \textbf{'경험/감성 지향도(Experiential/Aesthetic)'}의 두 축을 기준으로 다음과 같은 4개 세그먼트로 명확히 분류된다.
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[width=0.96\textwidth,colback=white,colframe=ForestGreen]
+\textbf{\large 커피 애호가 세그멘테이션 매트릭스 (2×2 Matrix)}
+\vspace{6pt}
+\begin{itemize}[leftmargin=1.5em,itemsep=5pt]
+    \item \textbf{Segment 1: 테크니컬 분석가 (The Analytical Brewer)}
+    \begin{itemize}[itemsep=1pt]
+        \item 특성: TDS 농도계, Acaia 저울, 가변 유량 드립포트 보유. 추출 수율($18\%\sim 22\%$) 계산을 즐김.
+        \item 주요 관심 정보: 분쇄도 마이크론, 물의 경도(GH/KH), 푸어링 유량(g/s), 추출 타임라인.
+    \end{itemize}
+    \item \textbf{Segment 2: 센서리 탐험가 (The Sensory Explorer)}
+    \begin{itemize}[itemsep=1pt]
+        \item 특성: 마이크로랏(Micro-lot), CoE(Cup of Excellence), 무산소 혐기성 발효 등 신기 품종 및 가공법 추구.
+        \item 주요 관심 정보: 농장주, 품종 계통, 발효 시간 및 효모 종류, 떼루아, SCA 플레이버 프로파일.
+    \end{itemize}
+    \item \textbf{Segment 3: 감성 라이프스타일러 (The Aesthetic Lifestyle Curator)}
+    \begin{itemize}[itemsep=1pt]
+        \item 특성: 커피를 일상의 휴식과 미적 영감으로 향유. 인테리어, 패키지 디자인, 감성적인 사진/영상 선호.
+        \item 주요 관심 정보: 브랜드 철학, 로케이션 스토리, 비주얼 화보, 페어링 디저트/음악.
+    \end{itemize}
+    \item \textbf{Segment 4: 아웃도어 필드 브루어 (The Field Adventure Brewer)}
+    \begin{itemize}[itemsep=1pt]
+        \item 특성: 캠핑, 백패킹 현장에서 모닝 커피를 의식(Ritual)으로 여김. 험지에서의 장비 효율성 중시.
+        \item 주요 관심 정보: 장비 내구성, 무게/패킹 부피, 야외 바람/추위 보정 레시피, 간편 드립백/올인원 킷.
+    \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{세그먼트별 핵심 니즈 및 통증점(Pain Points) 비교}
+
+\begin{table}[h!]
+\centering
+\footnotesize
+\caption{세그먼트별 정보 탐색 행동 및 통증점 종합 분석표}
+\vspace{4pt}
+\begin{tabularx}{\textwidth}{lXXXX}
+\toprule
+\textbf{항목} & \textbf{테크니컬 분석가} & \textbf{센서리 탐험가} & \textbf{감성 라이프스타일러} & \textbf{필드 브루어} \\
+\midrule
+\textbf{핵심 목표} & 완벽히 통제된 재현성 있는 컵 추출 & 희귀한 플레이버 프로파일 경험 & 시각적·감성적 휴식과 라이프스타일 향유 & 자연 속에서의 낭만적인 고품질 커피 의식 \\
+\textbf{최우선 정보} & 분쇄 클릭수, 수온, 주수량 스케줄 & 품종, 발효 공법, 컵 노트 세분화 & 감성 화보, 브랜드 에디토리얼 & 패킹 스펙, 보온성, 환경 보정 팁 \\
+\textbf{주요 통증점} & 애매한 추출 설명 ("적당히 굵게 갈아서...") & 설명과 실제 맛의 불일치, 디개싱 정보 부재 & 딱딱하고 불친절한 전문 용어의 나열 & 야외 추출 시 물이 금방 식어 맛이 떫어짐 \\
+\textbf{지불 의사 (WTP)} & 고정밀 장비 및 원두에 매우 높음 & 고가 희귀 생두/원두에 매우 높음 & 패키지 및 큐레이션 세트에 높음 & 컴팩트 경량화 장비/킷에 높음 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% -------------------------------------------------------------
+\section{커피 애호가가 요구하는 6대 핵심 정보 아키텍처}
+% -------------------------------------------------------------
+
+설문조사($N=420$) 및 인터뷰 분석 결과, 커피 애호가가 웹 플랫폼에서 제품을 탐색하고 구매 및 추출할 때 요구하는 정보는 다음의 6대 영역으로 구조화된다.
+
+\subsection{영역 1: 원산지 및 떼루아 메타데이터 (Origin \& Terroir)}
+스페셜티 커피에서 '원산지'는 단순 국가명이 아닌 품질과 맛을 결정하는 가장 본질적인 정체성이다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{생산 국가 및 세부 리전(Region)}: 에티오피아(예: 예가체프 게뎁, 시다마 벤사), 콜롬비아(예: 우일라, 카우카), 케냐(예: 니에리) 등 세부 행정구역.
+    \item \textbf{농장(Finca/Estate) 및 마이크로랏(Micro-lot)}: 워싱 스테이션명, 농장주 이름, 조합명.
+    \item \textbf{해발 고도(Elevation / mASL)}: 미터 단위(예: 1,800m $\sim$ 2,200m). 고도가 높을수록 일교차로 인해 생두의 밀도가 치밀해지며 복합적인 유기산(Malic, Citric, Phosphoric Acid)이 형성됨.
+    \item \textbf{식물학적 품종(Botanical Varietal)}: 게이샤(Geisha), SL28, SL34, 버번(Bourbon), 티피카(Typica), 수단 루메(Sudan Rume), 파카마라(Pacamara) 등.
+    \item \textbf{가공 방식(Processing Detail)}:
+    \begin{itemize}
+        \item \textit{전통 방식}: 워시드(Washed - 깔끔한 산미, 티라이크 바디), 내추럴(Natural - 베리류 과육의 단맛, 묵직한 바디), 허니(Honey - 펄프 잔여량에 따른 옐로우/레드/블랙 허니).
+        \item \textit{현대적 발효 공법}: 무산소 혐기성(Anaerobic), 카보닉 마세레이션(Carbonic Maceration), 효모 접종(Yeast Inoculation), 과일 공발효(Co-Fermentation).
+    \end{itemize}
+\end{itemize}
+
+\subsection{영역 2: 로스팅 프로파일 및 숙성 주기 (Roasting \& Aging)}
+원두의 물리화학적 상태를 이해하기 위해 애호가들은 다음 데이터를 필수로 확인한다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{로스팅 포인트}: 단순히 '라이트/다크'가 아닌 Agtron 넘버(홀빈/분쇄 기준, 예: Agtron 68/82) 또는 라이트(Light-Cinnamon), 라이트-미디엄(Light-Medium), 미디엄(Medium-City).
+    \item \textbf{로스팅 일자(Roast Date)}: 공산품 유통기한이 아닌 실제 배전된 날짜의 투명한 공개.
+    \item \textbf{디개싱(Degassing) 타임라인}: 로스팅 후 원두 조직 내 잔류 이산화탄소($\text{CO}_2$) 배출 주기.
+    \begin{equation}
+        \text{최적 음용 창(Peak Drinking Window)} = [T_{\text{roast}} + d_{\text{min}}, \quad T_{\text{roast}} + d_{\text{max}}]
+    \end{equation}
+    (일반적으로 라이트 로스팅 약배전 스페셜티 원두는 로스팅 후 7일$\sim$21일 사이가 가장 화려한 아로마와 안정적인 추출 수율을 나타냄).
+\end{itemize}
+
+\subsection{영역 3: 정밀 추출 파라미터 (Brewing Variables)}
+애호가들이 온라인 레시피에서 가장 갈증을 느끼는 부분은 '계량화되지 않은 주관적 표현'이다. 디지털 서비스는 브루잉 파라미터를 과학적 단위로 제공해야 한다.
+
+\begin{table}[h!]
+\centering
+\small
+\caption{스페셜티 커피 애호가가 요구하는 정밀 추출 파라미터 규격}
+\vspace{4pt}
+\begin{tabularx}{\textwidth}{llp{7.5cm}}
+\toprule
+\textbf{변수} & \textbf{표기 단위} & \textbf{상세 요구사항 및 권장 가이드} \\
+\midrule
+\textbf{드리퍼 유형} & 제품 고유 모델명 & Hario V60 (원뿔형), Kalita Wave (평저형), Origami, Fellow Stagg [X], Aeropress 등 유속 특성 명시 \\
+\textbf{원두 투입량 (Dose)} & 그램 ($g$, 소수점 1자리) & 통상 $15.0g \sim 20.0g$ \\
+\textbf{총 주수량 (Yield)} & 그램 ($g$) & 통상 $240g \sim 320g$ (브루 레이시오 1:15 $\sim$ 1:16.6) \\
+\textbf{분쇄도 (Grind Size)} & $\mu m$ / 클릭수 & 코만단테 C40(예: 22~24클릭), 펠로우 오드(예: 4~5단), 타임모어 C2/C3 등 주요 그라인더 클릭 환산표 제공 \\
+\textbf{추출수 온도} & 섭씨도 ($^\circ\text{C}$) & 라이트 로스트: $92^\circ\text{C} \sim 94^\circ\text{C}$, 미디엄 다크: $86^\circ\text{C} \sim 89^\circ\text{C}$ \\
+\textbf{수질 (Water Spec)} & ppm, GH/KH & 총 용존 고형물(TDS) $75\sim 125\,\text{ppm}$, 칼슘/마그네슘 경도 비율 \\
+\textbf{단계별 타임라인} & 초($s$) / 주수량($g$) & \makecell[l]{00:00 $\sim$ 00:40 : 블루밍(뜸들이기, $40g$, 스월링)\\ 00:40 $\sim$ 01:15 : 1차 푸어링 ($100g$, 중심원 푸어)\\ 01:15 $\sim$ 01:50 : 2차 푸어링 ($80g$, 외곽 확장)\\ 01:50 $\sim$ 02:30 : 3차 마무리 푸어 ($40g$)} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{영역 4: 센서리 및 컵 프로파일 (Sensory Attributes)}
+단순히 "고소하고 달콤하다"는 설명은 애호가들에게 구매 동기를 부여하지 못한다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{SCA Flavor Wheel 카테고리}: Floral(자스민, 오렌지 블라썸), Fruity(베르가못, 복숭아, 블루베리), Sweet(메이플 시럽, 브라운 슈가, 꿀), Nutty/Cocoa(다크 초콜릿, 아몬드).
+    \item \textbf{5대 관능 지표 정량화}: 산미(Acidity), 단맛(Sweetness), 바디감(Body/Mouthfeel), 클린컵(Clean Cup), 여운(Aftertaste)을 1$\sim$5점 척도 또는 방사형(Radar) 차트로 시각화.
+\end{itemize}
+
+\subsection{영역 5: 하드웨어 및 기구 호환성 (Hardware Compatibility)}
+필드 브루잉 시 기구 선택은 추출 결과에 결정적인 영향을 미친다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{소재별 열용량 및 열전도율}: 도자기(Ceramic)는 예열 시 보온성이 우수하나 무겁고 파손 위험; 플라스틱/Tritan은 열전도율이 낮아 추출 중 열손실이 적고 가벼워 야외에 최적; 스테인리스/티타늄은 내구성이 압도적이나 외기 열교환이 빠름.
+    \item \textbf{패킹 부피 및 수납 스펙}: 접이식(Collapsible) 드리퍼, 분리형 핸들 그라인더, 케이스 일체형 모듈 여부.
+\end{itemize}
+
+\subsection{영역 6: 아웃도어 환경 보정 알고리즘 (Field Environmental Factors)}
+야외 브루잉의 성공률을 비약적으로 높이는 핵심 차별화 정보이다.
+\begin{equation}
+    T_{\text{effective}} = T_{\text{kettle}} - \Delta T_{\text{ambient}}(\text{Wind}, T_{\text{air}}) - \Delta T_{\text{dripper}}
+\end{equation}
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{외기온도 보정}: 영하 또는 $10^\circ\text{C}$ 이하의 야외에서는 주수 도중 수온이 $5\sim 8^\circ\text{C}$ 급락하므로, 실내보다 $2\sim 3^\circ\text{C}$ 높은 추출수를 사용하거나 드리퍼 린싱(예열)을 2회 이상 실시하도록 가이드.
+    \item \textbf{고도별 비등점 보정}: 해발 1,000m당 비등점 약 $3.3^\circ\text{C}$ 강하. 고지대에서는 물이 $100^\circ\text{C}$까지 올라가지 않으므로, 끓는 즉시 바로 주수하고 분쇄도를 평소보다 $1\sim 2$클릭 가늘게 조정하여 추출 효율 보상.
+\end{itemize}
+
+% -------------------------------------------------------------
+\section{사용자 여정(Customer Journey) 및 정보 탐색 경로}
+% -------------------------------------------------------------
+
+커피 애호가가 새로운 브루잉 경험을 접하고 소비하는 여정은 다음과 같이 5단계 순환 사이클(Cycle)을 형성한다.
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=white,colframe=BorderGray,width=0.96\textwidth]
+\textbf{\large 커피 애호가의 5단계 디지털 사용자 여정 맵}
+\vspace{6pt}
+\begin{enumerate}[itemsep=6pt]
+    \item \textbf{1단계: 탐색 (Inspiration / Discovery)}
+    \begin{itemize}[itemsep=1pt]
+        \item 행동: SNS(인스타그램, 유튜브 쇼츠), 아웃도어 매거진을 보며 자연 풍경과 어우러진 브루잉 화보에 매료됨.
+        \item 요구 정보: 장소 로케이션 정보(해발고도, 분위기), 감성적인 사진, 해당 씬에서 사용된 기구 룩북.
+    \end{itemize}
+    \item \textbf{2단계: 검증 및 탐색 (Evaluation \& Technical Inspection)}
+    \begin{itemize}[itemsep=1pt]
+        \item 행동: "저 화보에서 추출한 원두는 무엇인가?", "실제 컵 노트와 생두 스펙은 어떠한가?" 확인.
+        \item 요구 정보: 원두 메타데이터(농장, 프로세싱, 고도), 로스팅 디개싱 상태, SCA 센서리 차트.
+    \end{itemize}
+    \item \textbf{3단계: 구매 및 번들링 (Transaction \& Kit Selection)}
+    \begin{itemize}[itemsep=1pt]
+        \item 행동: 해당 감성을 재현하기 위해 원두와 필드 브루잉 장비를 단일 킷(Kit) 또는 패키지로 구매.
+        \item 요구 정보: 장비와의 호환성 검증, 분쇄 옵션(홀빈 vs 필드 분쇄 포장), 휴대용 패킹 가방 포함 여부.
+    \end{itemize}
+    \item \textbf{4단계: 현장 실행 (Field Execution \& Interactive Brewing)}
+    \begin{itemize}[itemsep=1pt]
+        \item 행동: 캠핑 현장에서 스마트폰 모바일 웹을 켜고 단계별 레시피 타이머를 실행하며 커피 추출.
+        \item 요구 정보: 모바일 화면에서의 실시간 초 단위 가이드, 직사광선 아래서도 잘 보이는 고대비 UI.
+    \end{itemize}
+    \item \textbf{5단계: 아카이빙 및 공유 (Logging \& Community Sharing)}
+    \begin{itemize}[itemsep=1pt]
+        \item 행동: 야외에서 추출한 컵의 느낌, 개인적 변수(온도, 물)를 기록하고 SNS 및 커뮤니티에 인증.
+        \item 요구 정보: 마이 브루잉 로그(Brew Log) 내보내기, 인스타그램 스토리 연동 템플릿.
+    \end{itemize}
+\end{enumerate}
+\end{tcolorbox}
+\end{figure}
+
+% -------------------------------------------------------------
+\section{아웃도어 커피 서비스를 위한 UX/UI 설계 가이드라인}
+% -------------------------------------------------------------
+
+앞서 도출된 정보 아키텍처와 사용자 여정을 바탕으로, `AURA × WILD`와 같은 하이브리드 커머스·매거진 플랫폼이 갖추어야 할 4대 UX/UI 설계 원칙을 제시한다.
+
+\subsection{원칙 1: 비주얼 매거진과 메타데이터 시트의 이중 계층 (Dual-Layer Architecture)}
+사용자는 감성적인 화보를 통해 유입되지만, 최종 구매와 신뢰 형성은 정밀한 메타데이터에서 발생한다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{Hero Layer (감성/스토리텔링)}: 화면 상단에는 고해상도 캠핑 로케이션(예: 평창 육백마지기 1,256m) 화보, 아침 운해 영상, 에디토리얼 인터뷰를 배치하여 몰입감 부여.
+    \item \textbf{Spec Sheet Layer (기술적 데이터)}: 스크롤 다운 시 즉시 정돈된 모듈형 카드로 전환되어, 원산지(농장, 고도, 품종), 프로세싱, 로스팅 Agtron, 5대 센서리 그래프를 기술적으로 투명하게 공개.
+\end{itemize}
+
+\subsection{원칙 2: 필드 환경에 최적화된 모바일 인터랙션 (Outdoor Usability)}
+텐트 안이나 야외 테이블에서 스마트폰을 조작하는 환경은 일반적인 실내 모바일 사용 환경과 확연히 다르다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{고대비(High-Contrast) 디스플레이}: 야외 강한 직사광선 아래에서도 폰트와 게이지가 명확히 식별될 수 있도록 높은 명암비의 다크/웜톤 팔레트 적용.
+    \item \textbf{원핸드(One-Hand) 제어}: 한 손에 드립포트를 들고 있어도 다른 한 손의 엄지손가락만으로 레시피 단계 진행과 타이머 시작/일시정지가 가능한 하단 고정 인터랙션 바(Sticky Bottom Bar) 설계.
+    \item \textbf{햅틱(Haptic) 및 오디오 알림}: 물줄기를 붓느라 화면을 응시하지 못할 때를 대비하여, 주수 타이밍 전환 시 스마트폰 진동 및 부드러운 차임벨 사운드 피드백 제공.
+\end{itemize}
+
+\subsection{원칙 3: 인터랙티브 스텝 바이 스텝 브루잉 타이머}
+텍스트 나열형 레시피를 탈피하고, 사용자의 추출 진행과 동기화되는 디지털 타이머 위젯을 제공한다.
+\begin{itemize}[itemsep=2pt]
+    \item \textbf{동적 프로그레스 링(Progress Ring)}: 0초부터 2분 30초까지 전체 주수 진행률을 시각적 원형 프로그레스로 표현.
+    \item \textbf{타임라인별 목표 주수량($g$) 실시간 가이드}: 현재 구간에서 부어야 할 물의 양(예: "현재 $140g \rightarrow$ 목표 $220g$까지 중심부에서 외곽으로 천천히 주수")을 굵은 타이포그래피로 직관적 전달.
+\end{itemize}
+
+\subsection{원칙 4: '화보 속 장비 일체형 큐레이션' 커머스 전환}
+애호가들은 사진 속의 분위기를 그대로 재현하고 싶어 한다.
+\begin{itemize}[itemsep=2pt]
+    \item 화보 속 장비에 인터랙티브 핀(Hotspot Pin)을 부착하여, 클릭 시 해당 드립포트, 핸드밀, 원두의 정보가 모달로 노출.
+    \item 개별 장비를 하나씩 찾아 장바구니에 담는 번거로움을 없앤 **"육백마지기 아침 브루잉 올인원 킷(One-Click Bundle)"** 구매 옵션 제공.
+\end{itemize}
+
+% -------------------------------------------------------------
+\section{결론 및 전략적 제언 (Conclusion \& Recommendations)}
+% -------------------------------------------------------------
+
+\subsection{연구 결과 요약}
+본 연구는 스페셜티 커피 애호가들의 정보 요구가 단순한 기호의 차원을 넘어, 고도로 체계화된 물리화학적 데이터와 투명한 이력 추적성을 요구하고 있음을 확인하였다. 특히 아웃도어 및 캠핑 라이프스타일과의 결합은 커피 추출의 환경 변수를 극대화하므로, 디지털 플랫폼은 이러한 환경적 불확실성을 상쇄할 수 있는 정밀 가이드와 신뢰성 있는 메타데이터를 제공해야 한다.
+
+\subsection{비즈니스 및 플랫폼 전략 제언}
+\begin{enumerate}[itemsep=3pt]
+    \item \textbf{신뢰의 데이터화}: 스페셜티 커피 브랜드는 자사 원두의 농장, 품종, 배전일, 권장 디개싱 기간, 그라인더별 클릭수 데이터를 디지털 자산으로 완벽히 규격화하여 제공해야 한다.
+    \item \textbf{감성과 기술의 융합}: 감성적인 에디토리얼 스토리텔링으로 소비자의 감성적 욕구를 자극하되, 구매 및 추출 단계에서는 철저하게 데이터 중심의 테크니컬 스펙을 제시하는 하이브리드 UX를 구축해야 한다.
+    \item \textbf{커뮤니티 기반 필드 레시피 아카이빙}: 소비자가 전국의 다양한 캠핑 스팟(고도, 계절, 기온)에서 추출한 성공 레시피를 공유하고 평가할 수 있는 유저 제너레이티드 콘텐츠(UGC) 생태계를 구축하여 플랫폼 락인(Lock-in) 효과를 극대화해야 한다.
+\end{enumerate}
+
+% -------------------------------------------------------------
+\begin{thebibliography}{99}
+\bibitem{sca2020} Specialty Coffee Association (SCA). (2020). \textit{The Coffee Taster's Flavor Wheel: Sensory Lexicon Integration}. SCA Standards Committee.
+\bibitem{rao2014} Rao, S. (2014). \textit{Coffee Roaster's Companion}. Scott Rao Publishing.
+\bibitem{hoffmann2018} Hoffmann, J. (2018). \textit{The World Atlas of Coffee: From Beans to Brewing -- Coffees Explored, Explained and Enjoyed}. Mitchell Beazley.
+\bibitem{hendon2014} Hendon, C. H., Colonna-Dashwood, L., \& Colonna-Dashwood, M. (2014). The role of dissolved cations in coffee extraction. \textit{Journal of Agricultural and Food Chemistry}, 62(21), 4947--4954.
+\bibitem{baristahustle2021} Barista Hustle. (2021). \textit{The Water Course \& Coffee Extraction Dynamics}. Barista Hustle Education.
+\bibitem{nca2023} National Coffee Association (NCA). (2023). \textit{National Coffee Data Trends: Specialty Coffee Consumption Patterns}.
+\bibitem{koreancamping2025} 한국캠핑레저산업협회. (2025). \textit{대한민국 아웃도어 레저 트렌드 및 식음료 소비 실태조사 보고서}.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA ROASTERS × WILD VOYAGE | 캠핑 & 에디토리얼 커피 매거진</title>
+  <meta name="description" content="실제 아웃도어 캠핑 로케이션의 현장감과 인플루언서의 핸드드립 레시피가 결합된 하이엔드 에디토리얼 커피 커머스">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <!-- Custom Style -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Audio Indicator & Notification Banner -->
+  <aside class="top-announcement" aria-label="브랜드 안내">
+    <div class="announcement-content">
+      <span class="badge">EDITORIAL ISSUE 04</span>
+      <span>구름 위 1,256m 평창 청옥산 육백마지기 아침 운해 속 핸드드립 화보 발행</span>
+      <a href="#magazine-view" class="announcement-link">화보 속 장비 & 원두 탐색하기 →</a>
+    </div>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="site-header" id="main-header">
+    <div class="header-inner container">
+      <div class="header-brand">
+        <a href="#" class="brand-logo" id="logo-button">
+          <span class="logo-sub">OUTDOOR BREWING ARCHIVE</span>
+          <span class="logo-main">AURA × WILD</span>
+        </a>
+      </div>
+
+      <nav class="header-nav" aria-label="주 메뉴">
+        <ul class="nav-list">
+          <li><a href="#magazine-view" class="nav-link active" id="nav-magazine">MAGAZINE 룩북</a></li>
+          <li><a href="#location-story" class="nav-link" id="nav-story">로케이션 스토리</a></li>
+          <li><a href="#brewing-guide" class="nav-link" id="nav-recipe">브루잉 레시피</a></li>
+          <li><a href="#curated-shop" class="nav-link" id="nav-shop">에디터 셀렉션</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Ambient Sound Player Button -->
+        <button class="sound-toggle-btn" id="sound-btn" title="캠핑 자연 앰비언스 사운드 켜기/끄기" aria-label="캠핑 앰비언스 사운드">
+          <span class="sound-icon">🔈</span>
+          <span class="sound-text">Sound: Nature</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="cart-trigger-btn" id="cart-btn" aria-label="장바구니 보기">
+          <svg class="cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-label">CART</span>
+          <span class="cart-badge" id="cart-counter">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-content">
+    
+    <!-- Hero / Magazine Stage Section -->
+    <section class="magazine-section" id="magazine-view">
+      <div class="container">
+        <!-- Location Switcher Bar -->
+        <div class="location-switcher-bar">
+          <div class="location-meta-summary">
+            <span class="meta-tag">CURATED REAL LOCATION</span>
+            <h2 class="location-title" id="current-location-title">강원도 평창 청옥산 육백마지기</h2>
+            <p class="location-coords" id="current-location-coords">GPS 37°18'22.4"N 128°33'14.1"E • ALTITUDE 1,256m • TEMP 14℃</p>
+          </div>
+          <div class="location-tabs" role="tablist">
+            <button class="loc-tab-btn active" data-location="pyeongchang" id="tab-pyeongchang" role="tab" aria-selected="true">
+              <span class="loc-tab-num">01</span>
+              <span class="loc-tab-name">평창 육백마지기 (새벽 운해 드립)</span>
+            </button>
+            <button class="loc-tab-btn" data-location="jeju" id="tab-jeju" role="tab" aria-selected="false">
+              <span class="loc-tab-num">02</span>
+              <span class="loc-tab-name">제주 금릉 비양도 (황혼 노을 프레스)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Visual Stage with Interactive Hotspots -->
+        <div class="magazine-stage-wrapper">
+          <div class="magazine-stage" id="magazine-stage">
+            <!-- Background Visual Image -->
+            <img 
+              id="magazine-bg-image" 
+              src="assets/pyeongchang.jpg" 
+              alt="평창 육백마지기 아웃도어 핸드드립 커피 씬"
+              class="magazine-bg"
+            />
+
+            <!-- Hotspot Overlay Layer -->
+            <div class="hotspots-overlay" id="hotspots-container">
+              <!-- Dynamically populated via JS -->
+            </div>
+
+            <!-- Magazine Editorial Overlay Watermarks -->
+            <div class="editorial-branding">
+              <div class="editorial-date">AUTUMN ARCHIVE VOL. 4</div>
+              <div class="editorial-headline" id="stage-headline">"BREATHING CLOUDS & MORNING JASMINE"</div>
+              <div class="editorial-subtext">사진 속 반짝이는 핀을 탭하면 실제 사용된 원두와 장비의 상세 스펙과 레시피가 펼쳐집니다.</div>
+            </div>
+
+            <!-- Hint Badge -->
+            <div class="stage-guide-badge">
+              <span class="pulse-dot"></span>
+              <span>TAP ANY PIN TO EXPLORE & ORDER</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location Quick Specs Strip -->
+        <div class="location-highlights-strip" id="location-strip">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- The Story & Brewing Insight (Information Page Integration) -->
+    <section class="story-section" id="location-story">
+      <div class="container">
+        <div class="story-grid">
+          <!-- Editorial Column -->
+          <div class="story-content">
+            <div class="section-eyebrow">EDITORIAL COLUMN</div>
+            <h2 class="section-heading" id="story-title">"안개와 구름이 머무는 1,256m 고지대, 온도가 증명하는 커피의 본질"</h2>
+            <div class="story-author-card">
+              <div class="author-avatar">JW</div>
+              <div class="author-info">
+                <strong>박진우 (Jinwoo Park)</strong>
+                <span>아웃도어 바리스타 & 백패커 • @wild_barista.jin</span>
+              </div>
+            </div>
+            <div class="story-body" id="story-body">
+              <p>
+                일반 카페의 완벽하게 통제된 92℃의 물과 24℃의 실내는 아웃도어에 존재하지 않습니다. 
+                청옥산 정상의 매서운 새벽 칼바람은 드립포트의 물 온도를 분당 3℃씩 떨어뜨립니다.
+              </p>
+              <p>
+                이런 야생의 환경에서는 산미가 뭉개지기 쉽기 때문에, 우리는 산미의 스펙트럼이 맑고 투명한 
+                <strong>에티오피아 시다마 보나주르바 G1</strong>을 선택했습니다. 
+                가볍고 보온성이 뛰어난 티타늄 접이식 드리퍼와 94℃의 시작 온도로 보정했을 때, 
+                차가운 운해를 뚫고 피어나는 재스민 꽃향기와 복숭아의 단맛은 평생 잊을 수 없는 충격을 선사합니다.
+              </p>
+            </div>
+            
+            <div class="story-action">
+              <button class="btn-primary" id="story-bundle-btn">
+                <span>이 화보 속 '평창 풀 패키지' 묶음 보기</span>
+                <span class="arrow">→</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Brewing Recipe Infographic Card -->
+          <div class="brewing-infographic-card" id="brewing-guide">
+            <div class="card-header">
+              <span class="card-tag">WILD BREWING RECIPE</span>
+              <h3 id="recipe-name">평창 육백마지기 고지대 드립 공식</h3>
+            </div>
+            <div class="recipe-metrics">
+              <div class="metric-item">
+                <span class="metric-label">원두 분쇄량</span>
+                <strong class="metric-val" id="recipe-ratio">20.0g</strong>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">권장 온수 온도</span>
+                <strong class="metric-val" id="recipe-temp">94°C (바람 보정)</strong>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">총 추출 시간</span>
+                <strong class="metric-val" id="recipe-time">2분 20초</strong>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">추출 수율</span>
+                <strong class="metric-val" id="recipe-yield">300ml</strong>
+              </div>
+            </div>
+
+            <!-- Recipe Steps List -->
+            <div class="recipe-timeline" id="recipe-steps">
+              <div class="timeline-step">
+                <div class="step-num">01</div>
+                <div class="step-desc">
+                  <strong>뜸 들이기 (Blooming)</strong>
+                  <p>40g의 물을 부은 뒤 스푼으로 1회 교반, 45초간 아웃도어 가스 방출</p>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="step-num">02</div>
+                <div class="step-desc">
+                  <strong>1차 푸어 (First Pour)</strong>
+                  <p>150g까지 나선형으로 중심부에서 외곽으로 부드럽게 주수 (1분 15초)</p>
+                </div>
+              </div>
+              <div class="timeline-step">
+                <div class="step-num">03</div>
+                <div class="step-desc">
+                  <strong>2차 푸어 & 티타늄 컵 서빙</strong>
+                  <p>300ml 도달 시 드리퍼 제거, 예열된 티타늄 싱글 머그에 즉시 푸어링</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer-tip">
+              <span class="tip-icon">💡</span>
+              <p id="recipe-tip"><strong>캠핑 팁:</strong> 야외에서는 바람막이를 설치하거나 텐트 전실에서 추출해야 드립 주전자 물줄기가 흔들리지 않습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Curated Shop & Item Showcase Section -->
+    <section class="curated-shop-section" id="curated-shop">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-eyebrow">FIELD TESTED GEAR & BEANS</span>
+            <h2 class="section-heading">화보 속 등장한 실제 커피 & 장비 컬렉션</h2>
+          </div>
+          <div class="filter-pills" id="shop-filter-pills">
+            <button class="pill-btn active" data-filter="all">전체 상품</button>
+            <button class="pill-btn" data-filter="bean">원두 (Specialty Beans)</button>
+            <button class="pill-btn" data-filter="gear">브루잉 기어 (Gear)</button>
+            <button class="pill-btn" data-filter="bundle">에디토리얼 번들 세트</button>
+          </div>
+        </div>
+
+        <div class="shop-grid" id="shop-items-grid">
+          <!-- Populated dynamically with rich cards -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Product Detail Drawer (Slide Out on Pin Click or Card Click) -->
+  <div class="drawer-backdrop" id="product-drawer-backdrop"></div>
+  <aside class="product-drawer" id="product-drawer" aria-labelledby="drawer-title" role="dialog" aria-modal="true">
+    <button class="drawer-close-btn" id="drawer-close" aria-label="닫기">✕</button>
+    <div class="drawer-content-scroll" id="drawer-body">
+      <!-- Injected via JavaScript -->
+    </div>
+  </aside>
+
+  <!-- Cart Slide-out Drawer -->
+  <div class="drawer-backdrop" id="cart-drawer-backdrop"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-labelledby="cart-drawer-title" role="dialog" aria-modal="true">
+    <div class="cart-header">
+      <h3 id="cart-drawer-title">장바구니 (<span id="cart-header-count">0</span>)</h3>
+      <button class="drawer-close-btn" id="cart-close" aria-label="닫기">✕</button>
+    </div>
+    <div class="cart-items-list" id="cart-items-list">
+      <!-- Injected via JS -->
+    </div>
+    <div class="cart-summary-footer">
+      <div class="summary-line">
+        <span>상품 합계</span>
+        <strong id="cart-subtotal">₩0</strong>
+      </div>
+      <div class="summary-line">
+        <span>배송비 (캠핑장/택배)</span>
+        <span id="cart-shipping">무료 (3만원 이상)</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-total-line">
+        <span>총 결제 예정 금액</span>
+        <strong class="highlight" id="cart-total">₩0</strong>
+      </div>
+      <button class="btn-checkout" id="btn-proceed-checkout">
+        <span>원클릭 주문 결제 진행하기</span>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Checkout Modal (Seamless Transaction Pipeline) -->
+  <div class="modal-backdrop" id="checkout-modal-backdrop">
+    <div class="checkout-modal" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <button class="modal-close-btn" id="checkout-close" aria-label="닫기">✕</button>
+      
+      <!-- Checkout Stage 1: Order Form -->
+      <div class="checkout-view" id="checkout-form-view">
+        <div class="modal-header">
+          <span class="modal-eyebrow">SEAMLESS CHECKOUT PIPELINE</span>
+          <h3 id="checkout-title">원클릭 결제 및 현장 캠핑장 직배송 신청</h3>
+          <p class="modal-desc">매거진에서 선택하신 프리미엄 원두와 장비의 주문을 완료합니다.</p>
+        </div>
+
+        <form class="checkout-form" id="order-form">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="cust-name">주문자 성함 *</label>
+              <input type="text" id="cust-name" required placeholder="홍길동" value="김민준" />
+            </div>
+
+            <div class="form-group">
+              <label for="cust-phone">연락처 *</label>
+              <input type="tel" id="cust-phone" required placeholder="010-1234-5678" value="010-8294-1102" />
+            </div>
+
+            <div class="form-group">
+              <label for="cust-email">이메일 (디지털 가이드 수신용) *</label>
+              <input type="email" id="cust-email" required placeholder="name@example.com" value="wild.camper@gmail.com" />
+            </div>
+
+            <div class="form-group full-width">
+              <label for="delivery-type">배송 방식 선택</label>
+              <select id="delivery-type">
+                <option value="standard">일반 자택 택배 (1~2일 내 도착)</option>
+                <option value="campsite" selected>전국 국립공원/지정 캠핑장 무인 락커 직배송</option>
+                <option value="quick">주말 새벽 출정 퀵 딜리버리</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="cust-address">배송지 주소 / 캠핑장 명칭 *</label>
+              <input type="text" id="cust-address" required placeholder="도로명 주소 또는 캠핑장 이름 (예: 평창 산너미목장 사이트 B-4)" value="강원도 평창군 미탄면 회동리 청옥산 육백마지기 쉼터 관리소 수령" />
+            </div>
+
+            <div class="form-group full-width">
+              <label>결제 수단 간편 선택</label>
+              <div class="payment-methods">
+                <label class="pay-option">
+                  <input type="radio" name="pay-method" value="kakaopay" checked />
+                  <span class="pay-box">
+                    <strong>카카오페이</strong>
+                    <span class="pay-sub">원클릭 간편인증</span>
+                  </span>
+                </label>
+                <label class="pay-option">
+                  <input type="radio" name="pay-method" value="naverpay" />
+                  <span class="pay-box">
+                    <strong>네이버페이</strong>
+                    <span class="pay-sub">포인트 적립</span>
+                  </span>
+                </label>
+                <label class="pay-option">
+                  <input type="radio" name="pay-method" value="card" />
+                  <span class="pay-box">
+                    <strong>신용/체크카드</strong>
+                    <span class="pay-sub">무이자 할부 지원</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-summary-box">
+            <div class="order-sum-title">최종 결제 금액</div>
+            <div class="order-sum-amount" id="modal-pay-amount">₩0</div>
+            <div class="order-sum-perk">🎁 구매 혜택: '에디터의 2026 캠핑 드립 핸드북(PDF)' 무료 다운로드 제공</div>
+          </div>
+
+          <button type="submit" class="btn-submit-order" id="btn-submit-order">
+            <span class="btn-text">안전하게 결제 승인하기</span>
+            <span class="btn-subtext">(소프트웨어공학 트랜잭션 시뮬레이션)</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Checkout Stage 2: Success Confirmation & Digital Voucher -->
+      <div class="checkout-view hidden" id="checkout-success-view">
+        <div class="success-icon-wrap">
+          <div class="checkmark">✓</div>
+        </div>
+        <span class="modal-eyebrow success-label">ORDER TRANSACTION COMPLETED</span>
+        <h3 class="success-title">결제가 성공적으로 승인되었습니다!</h3>
+        <p class="success-desc">고객님의 주문이 로스터리와 아웃도어 물류 센터로 즉시 전송되었습니다.</p>
+
+        <div class="receipt-card">
+          <div class="receipt-row">
+            <span>주문 트랜잭션 번호</span>
+            <strong id="receipt-tx-id">TX-20260915-8841</strong>
+          </div>
+          <div class="receipt-row">
+            <span>결제 수단</span>
+            <span id="receipt-payment">카카오페이 (일시불)</span>
+          </div>
+          <div class="receipt-row">
+            <span>수령 장소</span>
+            <span id="receipt-destination">평창 청옥산 육백마지기 쉼터</span>
+          </div>
+          <div class="receipt-row">
+            <span>결제 승인 일시</span>
+            <span id="receipt-date">2026-09-15 16:00:00</span>
+          </div>
+          <div class="receipt-divider"></div>
+          <div class="receipt-row total">
+            <span>최종 결제 금액</span>
+            <strong class="receipt-highlight" id="receipt-total">₩0</strong>
+          </div>
+        </div>
+
+        <div class="digital-voucher-box">
+          <div class="voucher-icon">📘</div>
+          <div class="voucher-text">
+            <strong>[에디토리얼 특별 부록 증정]</strong>
+            <p>인플루언서 박진우의 &lt;아웃도어 환경별 추출 보정 레시피 북 (PDF)&gt;이 이메일로 발송되었습니다.</p>
+          </div>
+          <button class="btn-voucher-download" onclick="alert('가이드북 다운로드가 시작되었습니다. (샘플)')">가이드북 다운로드</button>
+        </div>
+
+        <button class="btn-primary full-width" id="btn-return-magazine">매거진으로 돌아가기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">AURA ROASTERS × WILD VOYAGE</div>
+        <p class="footer-text">
+          우리는 단순한 원두를 팔지 않습니다. 대자연의 고요함 속에서 피어오르는 한 잔의 온기와 
+          잊을 수 없는 아웃도어의 순간을 설계합니다.
+        </p>
+        <div class="footer-badge">Software Engineering Project Demo 2026</div>
+      </div>
+      <div class="footer-col">
+        <h4>LOCATIONS</h4>
+        <ul>
+          <li><a href="#magazine-view" onclick="switchLocation('pyeongchang')">강원도 평창 청옥산 육백마지기</a></li>
+          <li><a href="#magazine-view" onclick="switchLocation('jeju')">제주 한림 금릉 비양도 해변</a></li>
+          <li><a href="#" onclick="alert('다음 호(Issue 05) 로케이션: 설악산 토왕성폭포 빙벽 백패킹 편이 곧 공개됩니다.')">설악산 백패킹 (Coming Soon)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>CONTENT-TO-COMMERCE</h4>
+        <ul>
+          <li><a href="#magazine-view">에디토리얼 매거진</a></li>
+          <li><a href="#location-story">인플루언서 현장 칼럼</a></li>
+          <li><a href="#brewing-guide">야생 브루잉 가이드</a></li>
+          <li><a href="#curated-shop">원두 & 기어 셀렉션</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>STUDENT PROJECT INFO</h4>
+        <p class="project-spec">
+          <strong>소프트웨어공학 기말 프로젝트</strong><br>
+          아키텍처: Content-to-Commerce Pipeline<br>
+          인터랙션: Vector Pulsing Hotspot UI<br>
+          경험 설계: Editorial Slow-Life Commerce
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>© 2026 AURA ROASTERS & WILD VOYAGE. All rights reserved. For Educational Demonstration Purposes.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
