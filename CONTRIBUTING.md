@@ -50,8 +50,7 @@ chore: update prettier config
 Google Docs is the workspace, `docs/` is the confirmed version. Draft and revise in Google
 Docs; once a document is settled it gets copied into `docs/` as Markdown.
 
-- @Heisnotanimposter owns the Google Docs workspace and is the only one who moves a document
-  into `docs/`. To change something in `docs/`, raise it in Google Docs first.
+- @Heisnotanimposter maintains the Google Docs workspace.
 - `docs/` is Markdown first: documents as Markdown, with images and diagram sources next to
   them. Any other format needs a reason in the PR description.
 
