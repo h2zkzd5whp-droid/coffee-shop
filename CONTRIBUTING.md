@@ -2,7 +2,9 @@
 
 ## Workflow: GitHub Flow
 
-1. Branch off `main`. Branch names are free-form; no prefix rules.
+1. Branch off `main`. Branch names are free-form, but must describe the work on the branch.
+   `cart-api`, `usecase-diagram`, `fix-login-401` are fine. Initials, nicknames, and
+   unrelated words are not.
 2. Open a pull request.
 3. Squash merge into `main`.
 
