@@ -36,13 +36,22 @@ Fill in `SECRET_KEY` in `.env` with any long random string. This one-liner gener
 python -c "import secrets; print(secrets.token_urlsafe(50))"
 ```
 
-Backend:
+Backend on Windows:
 
 ```
 cd backend
 python -m venv .venv
-.venv\Scripts\activate          # Windows
-source .venv/bin/activate       # macOS / Linux
+.venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+```
+
+Backend on macOS / Linux:
+
+```
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
 ```
@@ -63,12 +72,19 @@ npm install
 
 Start both servers in separate terminals.
 
-Backend:
+Backend on Windows:
 
 ```
 cd backend
-.venv\Scripts\activate          # Windows
-source .venv/bin/activate       # macOS / Linux
+.venv\Scripts\activate
+python manage.py runserver      # http://localhost:8000
+```
+
+Backend on macOS / Linux:
+
+```
+cd backend
+source .venv/bin/activate
 python manage.py runserver      # http://localhost:8000
 ```
 
