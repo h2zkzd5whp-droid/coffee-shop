@@ -45,6 +45,16 @@ docs: add tech stack doc
 chore: update prettier config
 ```
 
+## Documentation
+
+Google Docs is the workspace, `docs/` is the confirmed version. Draft and revise in Google
+Docs; once a document is settled it gets copied into `docs/` as Markdown.
+
+- @Heisnotanimposter owns the Google Docs workspace and is the only one who moves a document
+  into `docs/`. To change something in `docs/`, raise it in Google Docs first.
+- `docs/` is Markdown first: documents as Markdown, with images and diagram sources next to
+  them. Any other format needs a reason in the PR description.
+
 ## Notifications
 
 A Discord webhook posts on push, pull request, pull request review, and issues.
@@ -53,4 +63,5 @@ A Discord webhook posts on push, pull request, pull request review, and issues.
 
 - `db.sqlite3`
 - `.env` (commit `.env.example` instead). When you add a new environment variable, add its key to `.env.example` too.
-- Word or HWP files. Documentation lives in `docs/` as Markdown only.
+- Word or HWP files (`.doc`, `.docx`, `.hwp`, `.hwpx`). See Documentation above for what
+  belongs in `docs/`.
