@@ -2,7 +2,9 @@
 
 ## Workflow: GitHub Flow
 
-1. Branch off `main`. Branch names are free-form; no prefix rules.
+1. Branch off `main`. Branch names are free-form, but must describe the work on the branch.
+   `cart-api`, `usecase-diagram`, `fix-login-401` are fine. Initials, nicknames, and
+   unrelated words are not.
 2. Open a pull request.
 3. Squash merge into `main`.
 
@@ -43,6 +45,15 @@ docs: add tech stack doc
 chore: update prettier config
 ```
 
+## Documentation
+
+Google Docs is the workspace, `docs/` is the confirmed version. Draft and revise in Google
+Docs; once a document is settled it gets copied into `docs/` as Markdown.
+
+- [Heisnotanimposter](https://github.com/Heisnotanimposter) maintains the Google Docs workspace.
+- `docs/` is Markdown first: documents as Markdown, with images and diagram sources next to
+  them. Any other format needs a reason in the PR description.
+
 ## Notifications
 
 A Discord webhook posts on push, pull request, pull request review, and issues.
@@ -51,4 +62,5 @@ A Discord webhook posts on push, pull request, pull request review, and issues.
 
 - `db.sqlite3`
 - `.env` (commit `.env.example` instead). When you add a new environment variable, add its key to `.env.example` too.
-- Word or HWP files. Documentation lives in `docs/` as Markdown only.
+- Word or HWP files (`.doc`, `.docx`, `.hwp`, `.hwpx`). See Documentation above for what
+  belongs in `docs/`.
