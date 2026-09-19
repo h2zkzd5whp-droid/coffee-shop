@@ -5,11 +5,11 @@ A small online shop for selling coffee beans. Runs locally for demonstration onl
 
 ## Team
 
-| Role      | GitHub |
-|-----------|--------|
-| Front-end | TBD    |
-| Front-end | TBD    |
-| Back-end  | TBD    |
+| Role      | GitHub             |
+|-----------|--------------------|
+| Front-end | @Yang-HA-03        |
+| Front-end | @h2zkzd5whp-droid  |
+| Back-end  | @Heisnotanimposter |
 
 ## Getting started
 
