@@ -5,11 +5,11 @@ A small online shop for selling coffee beans. Runs locally for demonstration onl
 
 ## Team
 
-| Role      | GitHub |
-|-----------|--------|
-| Front-end | TBD    |
-| Front-end | TBD    |
-| Back-end  | TBD    |
+| Role      | GitHub                                                    |
+|-----------|-----------------------------------------------------------|
+| Front-end | [Yang-HA-03](https://github.com/Yang-HA-03)               |
+| Front-end | [h2zkzd5whp-droid](https://github.com/h2zkzd5whp-droid)   |
+| Back-end  | [Heisnotanimposter](https://github.com/Heisnotanimposter) |
 
 ## Getting started
 
@@ -36,16 +36,28 @@ Fill in `SECRET_KEY` in `.env` with any long random string. This one-liner gener
 python -c "import secrets; print(secrets.token_urlsafe(50))"
 ```
 
-Backend:
+Backend on Windows:
 
 ```
 cd backend
 python -m venv .venv
-.venv\Scripts\activate          # Windows
-source .venv/bin/activate       # macOS / Linux
+.venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 ```
+
+Backend on macOS / Linux:
+
+```
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+```
+
+On Windows, if `.venv\Scripts\activate` fails with a script execution error, run
+`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once in PowerShell and try again.
 
 If you use [uv](https://docs.astral.sh/uv/), replace `python -m venv .venv` with `uv venv --python 3.12` and `pip install` with `uv pip install`. Do not use `uv run` in this repo.
 
@@ -58,15 +70,37 @@ npm install
 
 ### Run
 
-Start both servers in separate terminals:
+Start both servers in separate terminals.
+
+Backend on Windows:
 
 ```
-cd backend && python manage.py runserver     # http://localhost:8000
-cd frontend && npm run dev                   # http://localhost:5173
+cd backend
+.venv\Scripts\activate
+python manage.py runserver      # http://localhost:8000
+```
+
+Backend on macOS / Linux:
+
+```
+cd backend
+source .venv/bin/activate
+python manage.py runserver      # http://localhost:8000
+```
+
+Frontend:
+
+```
+cd frontend
+npm run dev                     # http://localhost:5173
 ```
 
 Open http://localhost:5173. The Vite dev server proxies `/api` to Django.
-To use the Django admin at http://localhost:8000/admin/, create a local account with `python manage.py createsuperuser`.
+http://localhost:8000 on its own returns 404, which is expected: only `/api/` and `/admin/`
+are served.
+
+To use the Django admin at http://localhost:8000/admin/, activate the backend virtual
+environment and run `python manage.py createsuperuser` from `backend/`.
 
 ## Documents
 
