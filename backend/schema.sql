@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
 -- 5. 주문 마스터 및 주문 상세 (Place Order, Manage Orders)
 -- --------------------------------------------------------
 
--- 주문 마스터 테이블
+-- 주문 마스터 테이블 (배송 정보 및 상태 포함)
 CREATE TABLE IF NOT EXISTS orders (
     order_id            TEXT PRIMARY KEY,   -- UUID 또는 비즈니스 식별 번호 (예: 'ORD-2026-X')
     user_id             INTEGER NOT NULL,
@@ -96,7 +96,11 @@ CREATE TABLE IF NOT EXISTS orders (
     recipient_name      TEXT NOT NULL,
     recipient_phone     TEXT NOT NULL,
     shipping_address    TEXT NOT NULL,      -- 주문 시점의 스냅샷 주소
+    courier_name        TEXT,               -- 택배사 명칭 (운송장 등록 전 NULL)
+    tracking_number     TEXT,               -- 운송장 번호 (운송장 등록 전 NULL)
     ordered_at          TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+    shipped_at          TEXT,               -- 발송 일시
+    delivered_at        TEXT,               -- 배송 완료 일시
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
@@ -134,24 +138,7 @@ CREATE TABLE IF NOT EXISTS payments (
 );
 
 -- --------------------------------------------------------
--- 7. 배송 관리 및 추적 (Prepare Shipment, Update Delivery Status, Track Delivery)
--- --------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS deliveries (
-    delivery_id     INTEGER PRIMARY KEY AUTOINCREMENT,
-    order_id        TEXT NOT NULL UNIQUE,
-    courier_name    TEXT NOT NULL,          -- 택배사 명칭
-    tracking_number TEXT NOT NULL,          -- 운송장 번호
-    delivery_status TEXT NOT NULL DEFAULT 'PREPARING' CHECK (
-        delivery_status IN ('PREPARING', 'IN_TRANSIT', 'DELIVERED')
-    ),
-    shipped_at      TEXT,                   -- 발송 일시
-    delivered_at    TEXT,                   -- 배송 완료 일시
-    FOREIGN KEY (order_id) REFERENCES orders (order_id)
-);
-
--- --------------------------------------------------------
--- 8. 성능 최적화를 위한 인덱스 (조회 및 필터 조건)
+-- 7. 성능 최적화를 위한 인덱스 (조회 및 필터 조건)
 -- --------------------------------------------------------
 
 -- 원두 검색 및 다중 조건 필터링 인덱스
@@ -163,6 +150,6 @@ CREATE INDEX IF NOT EXISTS idx_user_addresses_user_id ON user_addresses (user_id
 CREATE INDEX IF NOT EXISTS idx_cart_items_user_id ON cart_items (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_status_ordered_at ON orders (order_status, ordered_at DESC);
+CREATE INDEX IF NOT EXISTS idx_orders_tracking ON orders (tracking_number);
 CREATE INDEX IF NOT EXISTS idx_order_items_order_id ON order_items (order_id);
 CREATE INDEX IF NOT EXISTS idx_payments_order_id ON payments (order_id);
-CREATE INDEX IF NOT EXISTS idx_deliveries_tracking ON deliveries (tracking_number);
