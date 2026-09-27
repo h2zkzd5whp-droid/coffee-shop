@@ -1,97 +1,97 @@
-# 2. Requirements Definition
+# 2. 요구사항 정의
 
-Requirements for the Coffee Bean Shopping Mall System, addressing SRS Section 2.
+커피 원두 쇼핑몰 시스템의 요구사항. SRS 2장에 해당한다.
 
-## 2.1 Functional Requirements
+## 2.1 기능 요구사항
 
-### Customer
+### 고객
 
-- The shop has many customers, divided into guests and members.
-- A guest can browse and search coffee beans, and becomes a member by signing up.
-- A customer can search beans by name or filter them by origin, price, and roast level.
-- A member logs in with an email and password, and can edit their name and phone number.
-- A member can register multiple shipping addresses and set one of them as the default.
-- A member can add a bean to the cart by choosing its size, grind, and quantity, and can change the quantity or remove the item.
-- A member can order multiple beans at once, and can order the same bean repeatedly.
-- When ordering, a member can pick a saved address or enter a new one.
-- A member can view their order list, order details, and delivery status.
-- A member can request to cancel an order. The cancellation is complete only after an administrator approves it.
+- 쇼핑몰을 이용하는 고객은 여러 명이며, 비회원과 회원으로 나뉜다.
+- 비회원은 원두를 둘러보고 검색할 수 있으며, 회원가입을 하면 회원이 된다.
+- 고객은 원두를 이름으로 검색하거나 원산지, 가격, 로스팅 정도로 골라 볼 수 있다.
+- 회원은 이메일과 비밀번호로 로그인하며, 이름과 연락처를 수정할 수 있다.
+- 회원은 배송지를 여러 개 등록할 수 있고, 그중 하나를 기본 배송지로 정한다.
+- 회원은 원두의 용량, 분쇄도, 수량을 골라 장바구니에 담을 수 있으며, 담은 수량을 바꾸거나 뺄 수 있다.
+- 회원은 한 번에 여러 원두를 주문할 수 있고, 같은 원두를 반복해서 주문할 수 있다.
+- 회원은 주문할 때 저장된 배송지를 고르거나 새 주소를 입력할 수 있다.
+- 회원은 자신의 주문 목록과 상세 내역, 배송 상태를 조회할 수 있다.
+- 회원은 주문 취소를 요청할 수 있으며, 취소는 관리자가 승인해야 완료된다.
 
-### Administrator
+### 관리자
 
-- An administrator can register beans and edit their information.
-- An administrator can adjust stock and change a bean's sales status (on sale, sold out, stopped).
-- An administrator can view all orders, prepare shipments, and register the courier and tracking number.
-- An administrator updates the delivery status.
-- An administrator processes members' cancellation requests.
+- 관리자는 원두를 등록하고 정보를 수정할 수 있다.
+- 관리자는 원두의 재고를 조정하고, 판매 상태(판매 중, 품절, 판매 중지)를 바꿀 수 있다.
+- 관리자는 전체 주문을 조회하고, 배송을 준비하여 택배사와 송장번호를 등록한다.
+- 관리자는 배송 상태를 갱신한다.
+- 관리자는 회원의 주문 취소 요청을 처리한다.
 
-### Coffee Bean
+### 원두
 
-- The shop sells many beans. Each bean has an origin, roast level, tasting notes, and description.
-- Each bean is sold as multiple options by size and grind, and stock is managed per option.
-- An option can add an extra price on top of the bean's base price.
-- Bean prices change over time, so an order stores the bean name and price at the time of ordering.
-- An option with no stock is shown as sold out and cannot be ordered.
+- 쇼핑몰은 여러 원두를 판매하며, 원두마다 원산지, 로스팅 정도, 맛 노트, 설명을 가진다.
+- 각 원두는 용량과 분쇄도에 따라 여러 옵션으로 판매되고, 재고는 옵션별로 관리된다.
+- 옵션에 따라 기본 가격에 추가 금액이 붙는다.
+- 원두 가격은 시간에 따라 변동하므로, 주문에는 주문 당시의 원두 이름과 가격을 저장한다.
+- 재고가 없는 옵션은 품절로 표시되며 주문할 수 없다.
 
-### Order and Payment
+### 주문·결제
 
-- An order contains multiple order items.
-- The order total is the sum of the item amounts plus the shipping fee.
-- Payment is processed through an external payment gateway (PG).
-- When a payment fails, the failure reason is recorded and the member can pay again, so one order can have multiple payment records.
-- When a cancellation is approved, the payment is cancelled.
+- 주문 하나에는 여러 주문 항목이 들어간다.
+- 주문 금액은 상품 금액 합계에 배송비를 더해 계산한다.
+- 결제는 외부 결제대행사(PG)를 통해 처리한다.
+- 결제가 실패하면 실패 사유를 남기고 다시 결제할 수 있으므로, 주문 하나에 결제 기록이 여러 건 남을 수 있다.
+- 주문 취소가 승인되면 결제가 취소된다.
 
-### Delivery
+### 배송
 
-- An order is shipped in a single delivery. The courier, tracking number, and delivery status are recorded on the order.
-- A member can track the delivery by its tracking number.
+- 주문 하나는 한 번에 배송되며, 택배사, 송장번호, 배송 상태는 주문에 함께 기록된다.
+- 회원은 송장번호로 배송을 추적할 수 있다.
 
-## 2.2 Non-functional Requirements
+## 2.2 비기능 요구사항
 
-### Environment
+### 실행 환경
 
-- The system runs only on a local PC for the course demonstration and is not deployed to an external server.
-- The front end is built with React (Vite), the back end with Django and Django REST Framework, and the database is SQLite.
-- The runtime is Python 3.12 and Node.js 20 LTS. The system must install and run with the same steps on Windows and macOS.
-- The UI must work correctly in the latest version of Chrome.
-- The front end and back end exchange data only through a REST API in JSON.
+- 시스템은 수업 시연용으로 로컬 PC에서만 실행하며, 외부 서버에 배포하지 않는다.
+- 프론트엔드는 React(Vite), 백엔드는 Django와 Django REST Framework, 데이터베이스는 SQLite로 구현한다.
+- 실행 환경은 Python 3.12, Node.js 20 LTS이며, Windows와 macOS에서 같은 절차로 설치하고 실행할 수 있어야 한다.
+- 화면은 최신 버전의 Chrome 브라우저에서 정상 동작해야 한다.
+- 프론트엔드와 백엔드는 REST API를 통해 JSON 형식으로만 데이터를 주고받는다.
 
-### Security
+### 보안
 
-- Passwords are never stored in plain text, only as hashes.
-- Members authenticate with JWT tokens. Features that require login cannot be used without a token.
-- When the access token expires, it is refreshed automatically with the refresh token so the member does not have to log in again.
-- A member can view and edit only their own cart, addresses, and orders, and cannot access other members' data.
-- Only administrator accounts can register or edit beans, change stock or sales status, process orders and deliveries, and approve cancellations.
-- Payment method details such as card numbers are not stored. Only the transaction ID issued by the payment gateway is stored.
-- After a payment completes, the server checks that the paid amount equals the order's final payment amount.
-- Secrets and other sensitive settings are kept in the `.env` file and never committed to the repository.
+- 비밀번호는 원문으로 저장하지 않고 해시값으로만 저장한다.
+- 회원 인증은 JWT 토큰으로 하며, 로그인이 필요한 기능은 토큰 없이 사용할 수 없다.
+- 액세스 토큰이 만료되면 리프레시 토큰으로 자동 재발급하여, 회원이 다시 로그인하지 않아도 되게 한다.
+- 회원은 자신의 장바구니, 배송지, 주문만 조회하고 수정할 수 있으며, 다른 회원의 정보에는 접근할 수 없다.
+- 원두 등록·수정, 재고·판매 상태 변경, 주문·배송 처리, 취소 승인은 관리자 계정만 할 수 있다.
+- 카드 번호 등 결제 수단 정보는 시스템에 저장하지 않으며, 결제대행사가 발급한 거래번호만 저장한다.
+- 결제가 완료되면 서버는 실제 결제된 금액이 주문의 최종 결제 금액과 같은지 확인한다.
+- 비밀 키 등 민감한 설정값은 `.env` 파일로 관리하며 저장소에 올리지 않는다.
 
-### Data Integrity
+### 데이터 정확성
 
-- Creating an order and decreasing stock are processed in one transaction, so one is never applied without the other.
-- Stock must never go below zero, even when several members order the last unit of the same option at the same time.
-- The server checks again that a bean is not sold out or stopped before accepting an order, regardless of what the UI shows.
-- Order status changes only along the defined sequence. For example, a cancelled order cannot move back to shipping.
-- Member records with order history are protected from deletion.
-- Changing a bean's information or price does not change existing orders.
+- 주문 생성과 재고 차감은 하나의 트랜잭션으로 처리하여, 둘 중 하나만 반영되는 일이 없어야 한다.
+- 여러 회원이 같은 옵션의 마지막 재고를 동시에 주문해도 재고가 0 밑으로 내려가지 않아야 한다.
+- 품절이거나 판매 중지된 원두는 화면과 별개로 서버에서 다시 확인하여 주문을 막는다.
+- 주문 상태는 정해진 순서로만 바뀌며, 취소된 주문이 다시 배송 중으로 바뀌는 식의 전환은 허용하지 않는다.
+- 주문 기록이 있는 회원 정보는 삭제되지 않도록 보호한다.
+- 원두 정보나 가격이 바뀌어도 이미 만들어진 주문 내역은 바뀌지 않는다.
 
-### Performance
+### 성능
 
-- On the local environment, bean lists, search results, and filter results must appear within 2 seconds.
-- The bean list shows 20 beans per page.
-- The system must run without noticeable delay on demo data of 100 beans and 50 members.
+- 로컬 환경에서 원두 목록 조회, 검색, 필터 결과는 2초 안에 표시되어야 한다.
+- 원두 목록은 한 페이지에 20개씩 나누어 보여준다.
+- 원두 100종, 회원 50명 규모의 시연 데이터에서 눈에 띄는 지연 없이 동작해야 한다.
 
-### Usability
+### 사용성
 
-- All UI text is in Korean. Prices are shown in KRW with thousands separators.
-- Sold-out options are marked as sold out on the list and detail pages and cannot be added to the cart.
-- When input is invalid or a request fails, a message explains what went wrong.
+- 화면의 모든 문구는 한국어로 표시하고, 가격은 원 단위에 천 단위 쉼표를 붙여 표시한다.
+- 품절된 옵션은 목록과 상세 화면에서 품절로 표시하고 장바구니에 담을 수 없게 한다.
+- 입력값이 잘못되었거나 요청이 실패하면, 무엇이 잘못되었는지 알 수 있는 메시지를 보여준다.
 
-### Maintainability
+### 유지보수성
 
-- Python code is formatted with black and JavaScript code with prettier, and must pass oxlint.
-- UI state uses only React's built-in `useState` and props, with no state management library.
-- All API requests go through the single shared axios instance.
-- Every change is made on a branch for an issue and merged into `main` through a pull request.
-- Code, comments, and documents committed to the repository are written in English.
+- Python 코드는 black, JavaScript 코드는 prettier로 형식을 맞추고, oxlint 검사를 통과해야 한다.
+- 화면 상태 관리는 React 기본 기능(`useState`, props)만 사용하고 별도 라이브러리를 쓰지 않는다.
+- API 요청은 하나의 공통 axios 인스턴스를 통해서만 보낸다.
+- 모든 변경은 이슈와 브랜치를 만들어 작업하고, Pull Request를 거쳐 `main`에 합친다.
+- 코드, 주석, 커밋 메시지는 영어로 작성하고, `docs/`의 과제 제출 문서는 한국어로 작성한다.
