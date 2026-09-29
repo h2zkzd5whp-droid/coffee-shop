@@ -8,7 +8,7 @@ A small online shop for selling coffee beans. Runs locally for demonstration onl
 | Role      | GitHub                                                    |
 |-----------|-----------------------------------------------------------|
 | Front-end | [Yang-HA-03](https://github.com/Yang-HA-03)               |
-| Front-end | [h2zkzd5whp-droid](https://github.com/h2zkzd5whp-droid)   |
+| Front-end | [seren-wib](https://github.com/seren-wib)                 |
 | Back-end  | [Heisnotanimposter](https://github.com/Heisnotanimposter) |
 
 ## Getting started
@@ -23,7 +23,7 @@ A small online shop for selling coffee beans. Runs locally for demonstration onl
 ### Setup
 
 ```
-git clone https://github.com/h2zkzd5whp-droid/coffee-shop.git
+git clone https://github.com/seren-wib/coffee-shop.git
 cd coffee-shop
 cp .env.example .env
 ```
