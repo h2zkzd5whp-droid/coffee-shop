@@ -1,16 +1,16 @@
 -- ========================================================
--- 원두 쇼핑몰 시스템 (Coffee Bean Mall Shopping System)
--- SQLite 전용 물리 데이터베이스 스키마 (DDL)
+-- Coffee Bean Shopping Mall System
+-- SQLite Physical Database Schema (DDL)
 -- ========================================================
 
--- 1. 외래키 제약조건 활성화 (SQLite 세션 기본값 OFF 해제)
+-- 1. Enable Foreign Key Constraints (disabled by default in SQLite sessions)
 PRAGMA foreign_keys = ON;
 
 -- --------------------------------------------------------
--- 2. 회원 및 계정 관리 (Log In, Sign Up, Manage Account)
+-- 2. User & Account Management (Log In, Sign Up, Manage Account)
 -- --------------------------------------------------------
 
--- 회원 마스터 테이블
+-- User master table
 CREATE TABLE IF NOT EXISTS users (
     user_id         INTEGER PRIMARY KEY AUTOINCREMENT,
     email           TEXT NOT NULL UNIQUE,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at      TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
 );
 
--- 회원 배송지 테이블 (Select/Add/Edit Address)
+-- User shipping addresses table (Select/Add/Edit Address)
 CREATE TABLE IF NOT EXISTS user_addresses (
     address_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id         INTEGER NOT NULL,
@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS user_addresses (
 );
 
 -- --------------------------------------------------------
--- 3. 상품 카탈로그 및 재고 관리 (Browse Coffee Beans, Manage Products)
+-- 3. Product Catalog & Inventory (Browse Coffee Beans, Manage Products)
 -- --------------------------------------------------------
 
--- 원두 마스터 테이블
+-- Coffee bean product master table
 CREATE TABLE IF NOT EXISTS products (
     product_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     name            TEXT NOT NULL,
@@ -52,12 +52,12 @@ CREATE TABLE IF NOT EXISTS products (
     created_at      TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
 );
 
--- 원두 옵션 및 재고 테이블 (용량, 분쇄도, 재고)
+-- Product options and inventory table (weight size, grind type, stock)
 CREATE TABLE IF NOT EXISTS product_options (
     option_id       INTEGER PRIMARY KEY AUTOINCREMENT,
     product_id      INTEGER NOT NULL,
-    weight_size     TEXT NOT NULL,      -- 예: '200g', '500g', '1kg'
-    grind_type      TEXT NOT NULL DEFAULT 'WHOLE_BEAN', -- 예: 'WHOLE_BEAN', 'HAND_DRIP', 'ESPRESSO'
+    weight_size     TEXT NOT NULL,      -- e.g., '200g', '500g', '1kg'
+    grind_type      TEXT NOT NULL DEFAULT 'WHOLE_BEAN', -- e.g., 'WHOLE_BEAN', 'HAND_DRIP', 'ESPRESSO'
     extra_price     INTEGER NOT NULL DEFAULT 0 CHECK (extra_price >= 0),
     stock_quantity  INTEGER NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
     FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS product_options (
 );
 
 -- --------------------------------------------------------
--- 4. 장바구니 (Manage Cart)
+-- 4. Shopping Cart (Manage Cart)
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS cart_items (
@@ -80,12 +80,12 @@ CREATE TABLE IF NOT EXISTS cart_items (
 );
 
 -- --------------------------------------------------------
--- 5. 주문 마스터 및 주문 상세 (Place Order, Manage Orders)
+-- 5. Order Master & Order Items (Place Order, Manage Orders)
 -- --------------------------------------------------------
 
--- 주문 마스터 테이블 (배송 정보 및 상태 포함)
+-- Order master table (includes fulfillment tracking and delivery status)
 CREATE TABLE IF NOT EXISTS orders (
-    order_id            TEXT PRIMARY KEY,   -- UUID 또는 비즈니스 식별 번호 (예: 'ORD-2026-X')
+    order_id            TEXT PRIMARY KEY,   -- UUID or business identifier (e.g., 'ORD-2026-X')
     user_id             INTEGER NOT NULL,
     order_status        TEXT NOT NULL DEFAULT 'PENDING' CHECK (
         order_status IN ('PENDING', 'PAID', 'PREPARING', 'SHIPPED', 'DELIVERED', 'CANCEL_REQUESTED', 'CANCELLED')
@@ -95,21 +95,21 @@ CREATE TABLE IF NOT EXISTS orders (
     final_payment_amt   INTEGER NOT NULL CHECK (final_payment_amt >= 0),
     recipient_name      TEXT NOT NULL,
     recipient_phone     TEXT NOT NULL,
-    shipping_address    TEXT NOT NULL,      -- 주문 시점의 스냅샷 주소
-    courier_name        TEXT,               -- 택배사 명칭 (운송장 등록 전 NULL)
-    tracking_number     TEXT,               -- 운송장 번호 (운송장 등록 전 NULL)
+    shipping_address    TEXT NOT NULL,      -- Snapshot of delivery address at time of purchase
+    courier_name        TEXT,               -- Courier company name (NULL prior to dispatch)
+    tracking_number     TEXT,               -- Shipment tracking number (NULL prior to dispatch)
     ordered_at          TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
-    shipped_at          TEXT,               -- 발송 일시
-    delivered_at        TEXT,               -- 배송 완료 일시
+    shipped_at          TEXT,               -- Dispatched timestamp
+    delivered_at        TEXT,               -- Delivered timestamp
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
--- 주문 상세 항목 테이블 (주문 시점 스냅샷 보존)
+-- Order items table (immutable snapshot at purchase time)
 CREATE TABLE IF NOT EXISTS order_items (
     order_item_id   INTEGER PRIMARY KEY AUTOINCREMENT,
     order_id        TEXT NOT NULL,
     option_id       INTEGER NOT NULL,
-    product_name    TEXT NOT NULL,          -- 주문 시점 스냅샷 명칭
+    product_name    TEXT NOT NULL,          -- Snapshot product name
     weight_size     TEXT NOT NULL,
     grind_type      TEXT NOT NULL,
     order_price     INTEGER NOT NULL CHECK (order_price >= 0),
@@ -119,33 +119,33 @@ CREATE TABLE IF NOT EXISTS order_items (
 );
 
 -- --------------------------------------------------------
--- 6. 결제 트랜잭션 (Make Payment, Retry Payment, Payment Gateway)
+-- 6. Payment Transactions (Make Payment, Retry Payment, Payment Gateway)
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS payments (
     payment_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     order_id        TEXT NOT NULL,
-    pg_provider     TEXT NOT NULL,          -- 예: 'TOSS', 'INICIS', 'NAVERPAY'
-    pg_tid          TEXT UNIQUE,            -- PG사 승인 고유 트랜잭션 번호
+    pg_provider     TEXT NOT NULL,          -- e.g., 'TOSS', 'INICIS', 'NAVERPAY'
+    pg_tid          TEXT UNIQUE,            -- Gateway transaction ID
     payment_method  TEXT NOT NULL,          -- 'CARD', 'EASY_PAY', 'TRANSFER'
     payment_status  TEXT NOT NULL DEFAULT 'READY' CHECK (
         payment_status IN ('READY', 'SUCCESS', 'FAILED', 'CANCELLED')
     ),
     paid_amount     INTEGER NOT NULL CHECK (paid_amount >= 0),
-    failure_reason  TEXT,                   -- 실패 사유
-    approved_at     TEXT,                   -- PG 승인 일시
+    failure_reason  TEXT,                   -- Diagnostic reason if failed
+    approved_at     TEXT,                   -- Gateway approval timestamp
     FOREIGN KEY (order_id) REFERENCES orders (order_id)
 );
 
 -- --------------------------------------------------------
--- 7. 성능 최적화를 위한 인덱스 (조회 및 필터 조건)
+-- 7. Performance Indexes (Lookups and Filter Optimization)
 -- --------------------------------------------------------
 
--- 원두 검색 및 다중 조건 필터링 인덱스
+-- Product search and multi-attribute filtering indexes
 CREATE INDEX IF NOT EXISTS idx_products_name ON products (name);
 CREATE INDEX IF NOT EXISTS idx_products_filter ON products (origin, roast_level, base_price);
 
--- 마이페이지 및 장바구니/주문 빠른 조회를 위한 인덱스
+-- User activity and order lookup indexes
 CREATE INDEX IF NOT EXISTS idx_user_addresses_user_id ON user_addresses (user_id);
 CREATE INDEX IF NOT EXISTS idx_cart_items_user_id ON cart_items (user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders (user_id);
