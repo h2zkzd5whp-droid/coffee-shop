@@ -25,12 +25,6 @@ class PaymentStatus(models.TextChoices):
     CANCELLED = 'CANCELLED', 'Cancelled'
 
 
-class DeliveryStatus(models.TextChoices):
-    PREPARING = 'PREPARING', 'Preparing'
-    IN_TRANSIT = 'IN_TRANSIT', 'In Transit'
-    DELIVERED = 'DELIVERED', 'Delivered'
-
-
 class CartItem(models.Model):
     cart_item_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(
@@ -72,7 +66,7 @@ class Order(models.Model):
     order_id = models.CharField(primary_key=True, max_length=50)  # e.g., 'ORD-2026-X'
     user = models.ForeignKey(
         'users.User',
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='orders',
         db_column='user_id'
     )
@@ -87,13 +81,18 @@ class Order(models.Model):
     recipient_name = models.CharField(max_length=100)
     recipient_phone = models.CharField(max_length=20)
     shipping_address = models.CharField(max_length=255)
+    courier_name = models.CharField(max_length=50, blank=True, null=True)
+    tracking_number = models.CharField(max_length=100, blank=True, null=True)
     ordered_at = models.DateTimeField(auto_now_add=True)
+    shipped_at = models.DateTimeField(null=True, blank=True)
+    delivered_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = 'orders'
         indexes = [
             models.Index(fields=['user'], name='idx_orders_user_id'),
             models.Index(fields=['order_status', '-ordered_at'], name='idx_orders_status_ordered_at'),
+            models.Index(fields=['tracking_number'], name='idx_orders_tracking'),
         ]
         ordering = ['-ordered_at']
 
@@ -145,16 +144,54 @@ class Order(models.Model):
 
         return order
 
-    def cancel_order(self) -> bool:
-        if self.order_status in [OrderStatus.PENDING, OrderStatus.PAID, OrderStatus.PREPARING]:
+    def request_cancellation(self) -> bool:
+        """Member requests order cancellation."""
+        if self.order_status == OrderStatus.PENDING:
             with transaction.atomic():
+                self.order_status = OrderStatus.CANCELLED
+                self.save(update_fields=['order_status'])
+                for item in self.items.all():
+                    item.option.increase_stock(item.quantity)
+            return True
+        elif self.order_status in [OrderStatus.PAID, OrderStatus.PREPARING]:
+            self.order_status = OrderStatus.CANCEL_REQUESTED
+            self.save(update_fields=['order_status'])
+            return True
+        return False
+
+    def process_cancellation(self, approved: bool) -> bool:
+        """Administrator processes cancellation request."""
+        if self.order_status != OrderStatus.CANCEL_REQUESTED:
+            return False
+
+        with transaction.atomic():
+            if approved:
                 self.order_status = OrderStatus.CANCELLED
                 self.save(update_fields=['order_status'])
                 # Rollback stock
                 for item in self.items.all():
                     item.option.increase_stock(item.quantity)
-            return True
-        return False
+                # Refund payments
+                for payment in self.payments.filter(payment_status=PaymentStatus.SUCCESS):
+                    payment.cancel_payment("Admin approved cancellation request")
+            else:
+                self.order_status = OrderStatus.PREPARING
+                self.save(update_fields=['order_status'])
+        return True
+
+    def register_tracking(self, courier: str, tracking_no: str):
+        """Admin registers courier shipment tracking and marks order as SHIPPED."""
+        self.courier_name = courier
+        self.tracking_number = tracking_no
+        self.order_status = OrderStatus.SHIPPED
+        self.shipped_at = timezone.now()
+        self.save(update_fields=['courier_name', 'tracking_number', 'order_status', 'shipped_at'])
+
+    def mark_as_delivered(self):
+        """Marks order as DELIVERED upon completed shipment."""
+        self.order_status = OrderStatus.DELIVERED
+        self.delivered_at = timezone.now()
+        self.save(update_fields=['order_status', 'delivered_at'])
 
     def update_status(self, new_status: str):
         self.order_status = new_status
@@ -198,10 +235,10 @@ class OrderItem(models.Model):
 
 class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
-    order = models.OneToOneField(
+    order = models.ForeignKey(
         Order,
         on_delete=models.CASCADE,
-        related_name='payment',
+        related_name='payments',
         db_column='order_id'
     )
     pg_provider = models.CharField(max_length=50)
@@ -241,46 +278,3 @@ class Payment(models.Model):
         self.failure_reason = reason
         self.save(update_fields=['payment_status', 'failure_reason'])
         return True
-
-
-class Delivery(models.Model):
-    delivery_id = models.AutoField(primary_key=True)
-    order = models.OneToOneField(
-        Order,
-        on_delete=models.CASCADE,
-        related_name='delivery',
-        db_column='order_id'
-    )
-    courier_name = models.CharField(max_length=50)
-    tracking_number = models.CharField(max_length=100)
-    delivery_status = models.CharField(
-        max_length=30,
-        choices=DeliveryStatus.choices,
-        default=DeliveryStatus.PREPARING,
-    )
-    shipped_at = models.DateTimeField(null=True, blank=True)
-    delivered_at = models.DateTimeField(null=True, blank=True)
-
-    class Meta:
-        db_table = 'deliveries'
-        indexes = [
-            models.Index(fields=['tracking_number'], name='idx_deliveries_tracking'),
-        ]
-
-    def __str__(self):
-        return f"Delivery for {self.order_id} via {self.courier_name} ({self.tracking_number})"
-
-    def register_tracking(self, courier: str, tracking_no: str):
-        self.courier_name = courier
-        self.tracking_number = tracking_no
-        self.delivery_status = DeliveryStatus.IN_TRANSIT
-        self.shipped_at = timezone.now()
-        self.save(update_fields=['courier_name', 'tracking_number', 'delivery_status', 'shipped_at'])
-        self.order.update_status(OrderStatus.SHIPPED)
-
-    def update_delivery_status(self, status: str):
-        self.delivery_status = status
-        if status == DeliveryStatus.DELIVERED:
-            self.delivered_at = timezone.now()
-            self.order.update_status(OrderStatus.DELIVERED)
-        self.save()
